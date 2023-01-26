@@ -44,7 +44,10 @@
     <ClInclude Include="Game.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="IGameView.h">
+    <ClInclude Include="IGamePlatform.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

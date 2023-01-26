@@ -11,7 +11,7 @@ public:
 	virtual vector<Ship> SetShips() = 0;
 };
 
-class KeyboardSetFlotilla : public ISetFlotilla
+class SetFlotillaKeyboard : public ISetFlotilla
 {
 	Ship InputShip(int size)
 	{
@@ -57,6 +57,17 @@ public:
 	{
 		vector<Ship> flotilla;
 
+		flotilla.push_back(Ship(2, 6, 4, Direction::Horizontal));
+		flotilla.push_back(Ship(0, 4, 3, Direction::Vertical));
+		flotilla.push_back(Ship(4, 5, 3, Direction::Horizontal));
+		flotilla.push_back(Ship(1, 2, 2, Direction::Vertical));
+		flotilla.push_back(Ship(4, 2, 2, Direction::Vertical));
+		flotilla.push_back(Ship(9, 3, 2, Direction::Horizontal));
+		flotilla.push_back(Ship(0, 9, 1, Direction::Horizontal));
+		flotilla.push_back(Ship(5, 0, 1, Direction::Horizontal));
+		flotilla.push_back(Ship(7, 3, 1, Direction::Horizontal));
+		flotilla.push_back(Ship(6, 6, 1, Direction::Horizontal));
+		/*
 		for (int s = 4; s > 0; s--)
 		{
 			for (int i = s; i < 5; i++)
@@ -65,6 +76,7 @@ public:
 				flotilla.push_back(InputShip(s));
 			}
 		}
-
+		*/
+		return flotilla;
 	}
 };

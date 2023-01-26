@@ -3,8 +3,9 @@ struct Point
 {
 	int row;
 	int col;
-	Point() : Point(0, 0){}
 	Point(int row, int col) : row{ row }, col{ col } {}
+	Point() : Point(0, 0){}
+	
 };
 
 enum CellType

@@ -134,9 +134,10 @@
     <ClInclude Include="Console.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="IGameView.h" />
+    <ClInclude Include="IGamePlatform.h" />
     <ClInclude Include="ISetFlotilla.h" />
     <ClInclude Include="ISetShot.h" />
+    <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Ship.h" />
   </ItemGroup>

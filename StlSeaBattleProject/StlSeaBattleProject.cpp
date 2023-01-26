@@ -1,6 +1,17 @@
 ﻿#include <iostream>
+#include "Game.h"
+#include "Platform.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    Platform* platformKeyboard = new Platform(new GamePlatformKeyboard(),
+                                              new SetShotKeyboard(),
+                                              new SetFlotillaKeyboard());
+    Game game(platformKeyboard);
+
+    // выбор вариантов игроков
+    //game.Setup();
+    game.SetFlotilla();
+
+    game.View();
 }

@@ -17,11 +17,18 @@ class Player
 	ISetShot* shooter = nullptr;
 	ISetFlotilla* commander = nullptr;
 public:
+	Player() : Player("") {}
 	Player(string name) : name{ name } {}
+
+	string& Name() { return name; }
+
 	ISetShot*& Shooter() { return shooter; }
 	ISetFlotilla*& Commander() { return commander; }
 
-	void SetFlotilla() { flotilla = commander->SetShips(); }
+	void SetFlotilla() 
+	{ 
+		flotilla = commander->SetShips(); 
+	}
 
 	void GetShot(Point point) {	battlefield.SetCellShot(point);	}
 

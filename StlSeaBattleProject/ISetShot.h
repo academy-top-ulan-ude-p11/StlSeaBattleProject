@@ -12,7 +12,7 @@ public:
 	virtual Point SetShot() = 0;
 };
 
-class KeyboardSetShot : public ISetShot
+class SetShotKeyboard : public ISetShot
 {
 public:
 	Point SetShot() override
