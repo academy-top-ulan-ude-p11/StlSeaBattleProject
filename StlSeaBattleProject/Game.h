@@ -45,5 +45,19 @@ public:
 		}
 			
 	}
+
+	void Process()
+	{
+		currentPlayer = false;
+		while (true)
+		{
+			Point pointShot = players[currentPlayer].SetShot();
+			players[!currentPlayer].GetShot(pointShot);
+			vector<Ship> flotilla = players[!currentPlayer].GetFlotilla();
+		
+			bool isDefeat = false;
+		}
+	}
+
 };
 

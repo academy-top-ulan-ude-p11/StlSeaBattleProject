@@ -27,10 +27,14 @@ public:
 
 	void SetFlotilla() 
 	{ 
-		flotilla = commander->SetShips(); 
+		flotilla = commander->SetShips();
+		// пометить €чейки на игровом поле типом ѕалуба, где это необходимо.
 	}
 
-	void GetShot(Point point) {	battlefield.SetCellShot(point);	}
+	void GetShot(Point point) 
+	{	
+		battlefield.SetCellShot(point);
+	}
 
 	Point SetShot() { return shooter->SetShot(); }
 

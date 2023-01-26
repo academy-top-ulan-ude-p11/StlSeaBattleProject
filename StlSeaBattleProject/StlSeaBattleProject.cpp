@@ -12,6 +12,9 @@ int main()
     // выбор вариантов игроков
     //game.Setup();
     game.SetFlotilla();
-
     game.View();
+
+    game.Process();
+
+
 }
