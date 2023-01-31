@@ -23,7 +23,7 @@ class Cell
 public:
 	Cell(Point point)
 		: point{ point },
-		type{ CellType::Empty },
+		type{ CellType::Water },
 		isShot{ false } {}
 	Cell()
 		: Cell(Point(0, 0)) {}

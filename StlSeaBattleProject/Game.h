@@ -49,13 +49,23 @@ public:
 	void Process()
 	{
 		currentPlayer = false;
+		HitType hit;
+
 		while (true)
 		{
 			Point pointShot = players[currentPlayer].SetShot();
-			players[!currentPlayer].GetShot(pointShot);
-			vector<Ship> flotilla = players[!currentPlayer].GetFlotilla();
-		
-			bool isDefeat = false;
+			hit = players[!currentPlayer].GetShot(pointShot);
+
+			// Destroy
+			if (hit == HitType::Destroy)
+				if (players[!currentPlayer].FlotillaSize() == 0)
+					break;
+
+			// Wound
+
+			// Beside
+			if (hit == HitType::Destroy)
+				currentPlayer = !currentPlayer;
 		}
 	}
 

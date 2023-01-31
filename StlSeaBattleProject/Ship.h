@@ -33,5 +33,21 @@ public:
 	int& Damage() { return damage; }
 
 	bool IsDead() { return size == damage; }
+
+	bool IsPoint(Point point)
+	{
+		bool isPoint = true;
+		int row = this->point.row;
+		int col = this->point.col;
+		for (int i = 0; i < size; i++)
+		{
+			if (!(point.row == row && point.col == col))
+			{
+				isPoint = false;
+				break;
+			}
+		}
+		return isPoint;
+	}
 };
 

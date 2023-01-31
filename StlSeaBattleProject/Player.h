@@ -29,11 +29,38 @@ public:
 	{ 
 		flotilla = commander->SetShips();
 		// пометить €чейки на игровом поле типом ѕалуба, где это необходимо.
+		battlefield.SetShip(flotilla);
 	}
 
-	void GetShot(Point point) 
+	HitType GetShot(Point point) 
 	{	
+		HitType hit;
+		hit = battlefield.CheckShot(point);
 		battlefield.SetCellShot(point);
+
+		if (hit == HitType::Beside)
+			return hit;
+
+		for (Ship ship : flotilla)
+		{
+			if (ship.IsPoint(point))
+			{
+				ship.Damage()++;
+				if (ship.IsDead())
+					return HitType::Destroy;
+				else
+					return HitType::Wound;
+			}
+		}
+	}
+
+	int FlotillaSize()
+	{
+		int count{};
+		for (Ship ship : flotilla)
+			if (!ship.IsDead())
+				count++;
+		return count;
 	}
 
 	Point SetShot() { return shooter->SetShot(); }

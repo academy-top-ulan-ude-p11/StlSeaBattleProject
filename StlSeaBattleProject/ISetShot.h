@@ -3,6 +3,7 @@
 #include <ctype.h>
 
 #include "Cell.h"
+#include "Console.h"
 
 using namespace std;
 
@@ -17,8 +18,11 @@ class SetShotKeyboard : public ISetShot
 public:
 	Point SetShot() override
 	{
+		Console console;
+
 		char letter;
 		int number;
+		console.CursorGoTo(15, 0);
 		cout << "input point of shot (a-j, 1-10)\n";
 		while (true)
 		{
