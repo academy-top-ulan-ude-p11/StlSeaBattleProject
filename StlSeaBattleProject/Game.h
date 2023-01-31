@@ -64,7 +64,7 @@ public:
 			// Wound
 
 			// Beside
-			if (hit == HitType::Destroy)
+			if (hit == HitType::Beside)
 				currentPlayer = !currentPlayer;
 		}
 	}

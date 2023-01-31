@@ -41,12 +41,12 @@ public:
 		if (hit == HitType::Beside)
 			return hit;
 
-		for (Ship ship : flotilla)
+		for (int i = 0; i < flotilla.size(); i++)
 		{
-			if (ship.IsPoint(point))
+			if (flotilla[i].IsPoint(point))
 			{
-				ship.Damage()++;
-				if (ship.IsDead())
+				flotilla[i].Damage()++;
+				if (flotilla[i].IsDead())
 					return HitType::Destroy;
 				else
 					return HitType::Wound;

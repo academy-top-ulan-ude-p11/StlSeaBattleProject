@@ -1,7 +1,10 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <iomanip>
+
 #include "Ship.h"
+#include "Console.h"
 
 using namespace std;
 
@@ -57,16 +60,16 @@ public:
 	{
 		vector<Ship> flotilla;
 
-		flotilla.push_back(Ship(2, 6, 4, Direction::Horizontal));
+		//flotilla.push_back(Ship(2, 6, 4, Direction::Horizontal));
 		flotilla.push_back(Ship(0, 4, 3, Direction::Vertical));
-		flotilla.push_back(Ship(4, 5, 3, Direction::Horizontal));
+		/*flotilla.push_back(Ship(4, 5, 3, Direction::Horizontal));
 		flotilla.push_back(Ship(1, 2, 2, Direction::Vertical));
 		flotilla.push_back(Ship(4, 2, 2, Direction::Vertical));
 		flotilla.push_back(Ship(9, 3, 2, Direction::Horizontal));
 		flotilla.push_back(Ship(0, 9, 1, Direction::Horizontal));
 		flotilla.push_back(Ship(5, 0, 1, Direction::Horizontal));
 		flotilla.push_back(Ship(7, 3, 1, Direction::Horizontal));
-		flotilla.push_back(Ship(6, 6, 1, Direction::Horizontal));
+		flotilla.push_back(Ship(6, 6, 1, Direction::Horizontal));*/
 		/*
 		for (int s = 4; s > 0; s--)
 		{
@@ -79,4 +82,28 @@ public:
 		*/
 		return flotilla;
 	}
+};
+
+class SetFlotillaConsole : public ISetFlotilla
+{
+	Console* console;
+public:
+	SetFlotillaConsole(Console* console) : console{ console } {}
+
+	vector<Ship> SetShips() override
+	{
+		vector<Ship> flottila;
+
+		console->Clear();
+		for (int i = 0; i < 10; i++)
+		{
+			console->CursorGoTo(0, 2 + i * 2);
+			cout << setw(2) << i;
+			console->CursorGoTo(1 + i, 0);
+			cout << i;
+		}
+
+		return flottila;
+	}
+
 };
