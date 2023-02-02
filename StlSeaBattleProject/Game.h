@@ -29,7 +29,6 @@ public:
 	void Setup()
 	{
 		platform->GamePlatform()->Setup(players);
-		
 	}
 
 	void View()
@@ -40,10 +39,8 @@ public:
 	{
 		for (int i = 0; i < players.size(); i++)
 		{
-			cout << "Player #" << i + 1 << "set of sips:\n";
 			players[i].SetFlotilla();
 		}
-			
 	}
 
 	void Process()

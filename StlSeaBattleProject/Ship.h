@@ -25,11 +25,11 @@ public:
 	
 	Point GetPoint(){ return point; }
 	
-	int Row() { return point.row; }
-	int Col() { return point.col; }
+	int& Row() { return point.row; }
+	int& Col() { return point.col; }
 
 	int Size() { return size; }
-	Direction Direction() { return direction; }
+	Direction& Direction() { return direction; }
 	int& Damage() { return damage; }
 
 	bool IsDead() { return size == damage; }

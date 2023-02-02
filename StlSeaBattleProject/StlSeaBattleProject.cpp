@@ -14,11 +14,12 @@ int main()
     Game game(platformKeyboard);
 
     // выбор вариантов игроков
-    game.Setup();
+    //game.Setup();
     game.SetFlotilla();
     //game.View();
 
     //game.Process();
 
     
+
 }
