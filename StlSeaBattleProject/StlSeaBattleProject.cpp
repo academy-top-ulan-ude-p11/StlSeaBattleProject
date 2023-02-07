@@ -6,10 +6,10 @@
 
 int main()
 {
-    Platform* platformKeyboard = new Platform(new GamePlatformConsole(),
+    Platform* platformConsole = new Platform(new GamePlatformConsole(),
                                               new SetShotConsole(),
                                               new SetFlotillaConsole());
-    Game game(platformKeyboard);
+    Game game(platformConsole);
 
     game.Setup();
     game.SetFlotilla();
