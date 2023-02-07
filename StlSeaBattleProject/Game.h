@@ -7,7 +7,7 @@
 
 class Game
 {
-	vector<Player> players;
+	vector<Player*> players;
 	bool currentPlayer{ false };
 
 	Platform* platform;
@@ -16,19 +16,18 @@ public:
 	Game(Platform* platform)
 		: platform{ platform }
 	{
-		players.resize(2, Player());
-		for (int i = 0; i < players.size(); i++)
-		{
-			players[i].Shooter() = platform->Shooter();
-			players[i].Commander() = platform->Commander();
-		}
+		HumanPlayer* humanPlayer = new HumanPlayer();
+		humanPlayer->Shooter() = platform->Shooter();
+		humanPlayer->Commander() = platform->Commander();
+		players.push_back(humanPlayer);
+		players.push_back(new ComputerPlayer());
 	}
 
 	//vector<Player> Players() { return players; }
 
 	void Setup()
 	{
-		platform->GamePlatform()->Setup(players);
+		platform->GamePlatform()->Setup(players[0]);
 	}
 
 	void View()
@@ -39,7 +38,7 @@ public:
 	{
 		for (int i = 0; i < players.size(); i++)
 		{
-			players[i].SetFlotilla();
+			players[i]->SetFlotilla();
 		}
 	}
 
@@ -50,12 +49,13 @@ public:
 
 		while (true)
 		{
-			Point pointShot = players[currentPlayer].SetShot();
-			hit = players[!currentPlayer].GetShot(pointShot);
+			View();
+			Point pointShot = players[currentPlayer]->SetShot();
+			hit = players[!currentPlayer]->GetShot(pointShot);
 
 			// Destroy
 			if (hit == HitType::Destroy)
-				if (players[!currentPlayer].FlotillaSize() == 0)
+				if (players[!currentPlayer]->FlotillaSize() == 0)
 					break;
 
 			// Wound
@@ -63,7 +63,10 @@ public:
 			// Beside
 			if (hit == HitType::Beside)
 				currentPlayer = !currentPlayer;
+
+			//_getch();
 		}
+
 	}
 
 };

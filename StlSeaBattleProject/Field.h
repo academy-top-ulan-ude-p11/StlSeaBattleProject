@@ -61,5 +61,10 @@ public:
 		if (cells[point.row][point.col].Type() == CellType::Deck)
 			return HitType::Reach;
 	}
+
+	Cell GetCell(int row, int col)
+	{
+		return cells[row][col];
+	}
 };
 

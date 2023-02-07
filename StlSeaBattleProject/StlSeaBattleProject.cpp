@@ -6,19 +6,16 @@
 
 int main()
 {
-    Console* console = new Console();
-
-    Platform* platformKeyboard = new Platform(new GamePlatformKeyboard(),
-                                              new SetShotKeyboard(),
-                                              new SetFlotillaConsole(console));
+    Platform* platformKeyboard = new Platform(new GamePlatformConsole(),
+                                              new SetShotConsole(),
+                                              new SetFlotillaConsole());
     Game game(platformKeyboard);
 
-    // выбор вариантов игроков
-    //game.Setup();
+    game.Setup();
     game.SetFlotilla();
-    //game.View();
+    game.View();
 
-    //game.Process();
+    game.Process();
 
     
 

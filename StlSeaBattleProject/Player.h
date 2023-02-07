@@ -10,30 +10,19 @@ using namespace std;
 
 class Player
 {
+protected:
 	string name;
 	Field battlefield;
 	vector<Ship> flotilla;
-
-	ISetShot* shooter = nullptr;
-	ISetFlotilla* commander = nullptr;
 public:
-	Player() : Player("") {}
 	Player(string name) : name{ name } {}
 
 	string& Name() { return name; }
 
-	ISetShot*& Shooter() { return shooter; }
-	ISetFlotilla*& Commander() { return commander; }
+	Field& Battlefield() { return battlefield; }
 
-	void SetFlotilla() 
-	{ 
-		flotilla = commander->SetShips();
-		// пометить €чейки на игровом поле типом ѕалуба, где это необходимо.
-		battlefield.SetShip(flotilla);
-	}
-
-	HitType GetShot(Point point) 
-	{	
+	HitType GetShot(Point point)
+	{
 		HitType hit;
 		hit = battlefield.CheckShot(point);
 		battlefield.SetCellShot(point);
@@ -63,8 +52,62 @@ public:
 		return count;
 	}
 
-	Point SetShot() { return shooter->SetShot(); }
-
 	vector<Ship> GetFlotilla() { return flotilla; }
+
+	virtual Point SetShot() = 0;
+
+	virtual void SetFlotilla() = 0;
 };
 
+class HumanPlayer : public Player
+{
+	ISetShot* shooter = nullptr;
+	ISetFlotilla* commander = nullptr;
+public:
+	HumanPlayer() : HumanPlayer("") {}
+	HumanPlayer(string name) : Player(name) {}
+
+	ISetShot*& Shooter() { return shooter; }
+	ISetFlotilla*& Commander() { return commander; }
+
+	void SetFlotilla() override
+	{ 
+		flotilla = commander->SetShips();
+		// пометить €чейки на игровом поле типом ѕалуба, где это необходимо.
+		battlefield.SetShip(flotilla);
+	}
+
+	Point SetShot() override
+	{ 
+		return shooter->SetShot(); 
+	}
+};
+
+class ComputerPlayer : public Player
+{
+public:
+	ComputerPlayer() : Player("Computer") {}
+
+	void SetFlotilla() override
+	{
+		flotilla.push_back(Ship(2, 6, 4, Direction::Horizontal));
+		flotilla.push_back(Ship(0, 4, 3, Direction::Vertical));
+		flotilla.push_back(Ship(4, 5, 3, Direction::Horizontal));
+		flotilla.push_back(Ship(1, 2, 2, Direction::Vertical));
+		flotilla.push_back(Ship(4, 2, 2, Direction::Vertical));
+		flotilla.push_back(Ship(9, 3, 2, Direction::Horizontal));
+		flotilla.push_back(Ship(0, 9, 1, Direction::Horizontal));
+		flotilla.push_back(Ship(5, 0, 1, Direction::Horizontal));
+		flotilla.push_back(Ship(7, 3, 1, Direction::Horizontal));
+		flotilla.push_back(Ship(6, 6, 1, Direction::Horizontal));
+
+		battlefield.SetShip(flotilla);
+	}
+
+	Point SetShot() override
+	{
+		srand(time(nullptr));
+
+		return Point((rand() % 10), (rand() % 10));
+	}
+};

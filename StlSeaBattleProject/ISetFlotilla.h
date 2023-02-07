@@ -86,7 +86,7 @@ public:
 
 class SetFlotillaConsole : public ISetFlotilla
 {
-	Console* console;
+	Console console;
 	int sizeField;
 
 	Point beginField;
@@ -94,8 +94,7 @@ class SetFlotillaConsole : public ISetFlotilla
 
 	vector<Ship> flotilla;
 public:
-	SetFlotillaConsole(Console* console) 
-		: console{ console } 
+	SetFlotillaConsole() 
 	{
 		sizeField = 10;
 		beginField.row = 2;
@@ -106,40 +105,38 @@ public:
 
 	void View(int size, int count)
 	{
-		
-
-		console->Clear();
+		console.Clear();
 
 		// view coordinats
-		console->SetForeground(Colors::White, true);
+		console.SetForeground(Colors::White, true);
 		for (int i = 0; i < sizeField; i++)
 		{
-			console->CursorGoTo(beginField.row - 1, beginField.col + i * 2);
+			console.CursorGoTo(beginField.row - 1, beginField.col + i * 2);
 			cout << setw(2) << (char)(i + 'a');
-			console->CursorGoTo(beginField.row + i, beginField.col - 2);
+			console.CursorGoTo(beginField.row + i, beginField.col - 2);
 			cout << setw(2) << i + 1;
 		}
 		
 		// view water
-		console->SetForeground(Colors::Cyan);
+		console.SetForeground(Colors::Cyan);
 		for (int row = 0; row < sizeField; row++)
 		{
 			for (int col = 0; col < sizeField; col++)
 			{
-				console->CursorGoTo(beginField.row + row, beginField.col + col * 2);		
+				console.CursorGoTo(beginField.row + row, beginField.col + col * 2);		
 				cout << setw(2) << string(2, WATER);
 			}
 		}
 
 		// view ships on field
-		console->SetForeground(Colors::Magenta);
+		console.SetForeground(Colors::Magenta);
 		for (Ship ship : flotilla)
 		{
 			int row = ship.Row();
 			int col = ship.Col();
 			for (int s = 0; s < ship.Size(); s++)
 			{
-				console->CursorGoTo(beginField.row + row, beginField.col + col * 2);
+				console.CursorGoTo(beginField.row + row, beginField.col + col * 2);
 				cout << string(2, DESK);
 				if (ship.Direction() == Direction::Horizontal)
 					col++;
@@ -154,8 +151,8 @@ public:
 		int diffCol = endField.col + 10;
 		for (int shipSize = 4, i = 0; shipSize > 0; shipSize--, i++)
 		{
-			console->SetForeground(Colors::White, true);
-			console->CursorGoTo(beginField.row + i * 2, diffCol);
+			console.SetForeground(Colors::White, true);
+			console.CursorGoTo(beginField.row + i * 2, diffCol);
 			if (size < shipSize)
 				cout << 0;
 			else if (size == shipSize)
@@ -164,41 +161,37 @@ public:
 				cout << 5 - shipSize;
 			
 			if (shipSize == size)
-				console->SetForeground(Colors::Green);
+				console.SetForeground(Colors::Green);
 			else
-				console->SetForeground(Colors::Magenta);
+				console.SetForeground(Colors::Magenta);
 
 			for (int s = 0; s < shipSize; s++)
 			{
-				console->CursorGoTo(beginField.row + i * 2, diffCol + s * 2 + 2);
+				console.CursorGoTo(beginField.row + i * 2, diffCol + s * 2 + 2);
 				cout << setw(2) << string(2, DESK);
 			}
 		}
-
-		
-
-
 	}
 
 	void ViewCurrentShip(Ship ship)
 	{
 		int r = endField.row + 1;
 		int c = beginField.col;
-		console->SetForeground(Colors::Gray);
+		console.SetForeground(Colors::Gray);
 		for (int i = 0; i < ship.Size(); i++)
 			for (int j = 0; j < ship.Size(); j++)
 			{
-				console->CursorGoTo(r + i, c + j * 2);
+				console.CursorGoTo(r + i, c + j * 2);
 				cout << setw(2) << string(2, DESK);
 			}
 				
 
 		r = endField.row + 1;
 		c = beginField.col;
-		console->SetForeground(Colors::Green);
+		console.SetForeground(Colors::Green);
 		for (int i = 0; i < ship.Size(); i++)
 		{
-			console->CursorGoTo(r, c);
+			console.CursorGoTo(r, c);
 			cout << setw(2) << string(2, DESK);
 			if (ship.Direction() == Direction::Horizontal)
 				c+=2;
@@ -212,11 +205,11 @@ public:
 		KeyCode key;
 		int row{};
 		int col{};
-		console->CursorGoTo(beginField.row + row, beginField.col + col * 2);
+		console.CursorGoTo(beginField.row + row, beginField.col + col * 2);
 
-		Ship ship(row, col, shipSize, Direction::Horizontal);
+		Ship* ship = new Ship(row, col, shipSize, Direction::Horizontal);
 
-		ViewCurrentShip(ship);
+		ViewCurrentShip(*ship);
 		
 		/*console->SetForeground(Colors::Magenta, true);
 		cout << setw(2) << string(2, DESK);
@@ -247,11 +240,18 @@ public:
 				break;
 			case Enter:
 				isWrong = false;
+				if (ship->Direction() == Direction::Horizontal)
+					isWrong = col + ship->Size() > 10;
+				else
+					isWrong = row + ship->Size() > 10;
+				if (isWrong)
+					break;
+
 				for (Ship s : flotilla)
 				{
-					int r = ship.GetPoint().row;
-					int c = ship.GetPoint().col;
-					for (int i = 0; i < ship.Size(); i++)
+					int r = row; //ship.GetPoint().row;
+					int c = col; //ship.GetPoint().col;
+					for (int i = 0; i < ship->Size(); i++)
 					{
 						for (int rx = -1; rx < 2; rx++)
 						{
@@ -263,7 +263,7 @@ public:
 							if (isWrong) break;
 						}
 						if (isWrong) break;
-						if (ship.Direction() == Direction::Horizontal)
+						if (ship->Direction() == Direction::Horizontal)
 							c++;
 						else
 							r++;
@@ -273,16 +273,16 @@ public:
 				}
 				if (!isWrong)
 				{
-					ship.Row() = row;
-					ship.Col() = col;
+					ship->Row() = row;
+					ship->Col() = col;
 				}
 				break;
 			case Space:
-				if (ship.Direction() == Direction::Horizontal)
-					ship.Direction() = Direction::Vertical;
+				if (ship->Direction() == Direction::Horizontal)
+					ship->Direction() = Direction::Vertical;
 				else
-					ship.Direction() = Direction::Horizontal;
-				ViewCurrentShip(ship);
+					ship->Direction() = Direction::Horizontal;
+				ViewCurrentShip(*ship);
 				break;
 			case Esc:
 				exit(1);
@@ -291,24 +291,17 @@ public:
 				break;
 			}
 			
-			
-
-
-			console->CursorGoTo(beginField.row + row, beginField.col + col * 2);
-			/*console->SetForeground(Colors::Magenta, true);
-			cout << setw(2) << string(2, DESK);
-			console->CursorGoTo(beginField.row + row, beginField.col + col * 2);*/
-
+			console.CursorGoTo(beginField.row + row, beginField.col + col * 2);
 			if (!isWrong)
 				break;
 		}
-		return ship;
+		return *ship;
 	}
 
 	vector<Ship> SetShips() override
 	{
-
-		/*flotilla.push_back(Ship(2, 6, 4, Direction::Horizontal));
+		
+		flotilla.push_back(Ship(2, 6, 4, Direction::Horizontal));
 		flotilla.push_back(Ship(0, 4, 3, Direction::Vertical));
 		flotilla.push_back(Ship(4, 5, 3, Direction::Horizontal));
 		flotilla.push_back(Ship(1, 2, 2, Direction::Vertical));
@@ -317,11 +310,9 @@ public:
 		flotilla.push_back(Ship(0, 9, 1, Direction::Horizontal));
 		flotilla.push_back(Ship(5, 0, 1, Direction::Horizontal));
 		flotilla.push_back(Ship(7, 3, 1, Direction::Horizontal));
-		flotilla.push_back(Ship(6, 6, 1, Direction::Horizontal));*/
-
-		//View(flotilla, 2, 1);
-		//char ch = _getch();
-
+		flotilla.push_back(Ship(6, 6, 1, Direction::Horizontal));
+		
+		/*
 		for (int shipSize = 4; shipSize > 0; shipSize--)
 		{
 			for (int shipCount = shipSize; shipCount < 5; shipCount++)
@@ -329,13 +320,9 @@ public:
 				View(shipSize, shipCount);
 				Ship ship = SetShip(shipSize);
 				flotilla.push_back(ship);
-				
 			}
 		}
-
-		
-
+		*/
 		return flotilla;
 	}
-
 };
